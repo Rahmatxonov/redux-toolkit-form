@@ -153,12 +153,16 @@ const CreatePage = () => {
           >
             <div class="bg"></div>
             <div class="blob"></div>
-            <p className="z-10 whitespace-nowrap">LastName: {item.lastName}</p>
-            <p className="z-10 whitespace-nowrap">
+            <p className="z-10 whitespace-nowrap capitalize">
+              LastName: {item.lastName}
+            </p>
+            <p className="z-10 whitespace-nowrap capitalize">
               FirstName: {item.firstName}
             </p>
-            <p className="z-10 whitespace-nowrap">Email: {item.email}</p>
-            <p className="z-10 whitespace-nowrap">
+            <p className="z-10 whitespace-nowrap capitalize">
+              Email: {item.email}
+            </p>
+            <p className="z-10 whitespace-nowrap capitalize">
               Birthdate: {item.birthdate}
             </p>
             <p className="pb-10">Password: {item.password}</p>
