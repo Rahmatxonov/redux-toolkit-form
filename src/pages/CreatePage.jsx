@@ -24,29 +24,37 @@ const CreatePage = () => {
   const [birthdate, setBirthdate] = useState("");
   const [password, setPassword] = useState("");
   const [letUpdate, setLetUpdate] = useState(false);
+  const [updateId, setUpdateId] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const todoData = {
-      firstName,
-      lastName,
-      email,
-      birthdate,
-      password,
-    };
-
     if (letUpdate) {
-      await updateTodos(todoData);
+      const updatedData = {
+        id: updateId,
+        firstName,
+        lastName,
+        email,
+        birthdate,
+        password,
+      };
+      await updateTodos(updatedData);
       setLetUpdate(false);
+      setUpdateId(null);
     } else {
-      const response = await addTodoMutation(todoData);
-      const newTodo = response.data;
-      setFirstName(newTodo.firstName);
-      setLastName(newTodo.lastName);
-      setEmail(newTodo.email);
-      setBirthdate(newTodo.birthdate);
-      setPassword(newTodo.password);
+      const todoData = {
+        firstName,
+        lastName,
+        email,
+        birthdate,
+        password,
+      };
+      await addTodoMutation(todoData);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setBirthdate("");
+      setPassword("");
     }
   };
 
@@ -54,7 +62,7 @@ const CreatePage = () => {
     await deleteTodoMutation(id);
   };
 
-  const handleUpdate = async (id) => {
+  const handleUpdate = (id) => {
     const updatedData = todosData.find((item) => item.id === id);
     setFirstName(updatedData.firstName);
     setLastName(updatedData.lastName);
@@ -63,6 +71,7 @@ const CreatePage = () => {
     setPassword(updatedData.password);
 
     setLetUpdate(true);
+    setUpdateId(id);
   };
 
   if (isFetching) return <div>Loading...</div>;
@@ -94,6 +103,7 @@ const CreatePage = () => {
               id="Last-Name"
               value={lastName}
               name="Last-Name"
+              required
             />
           </div>
           <div className="rounded-md grid gap-6 w-full">
@@ -105,6 +115,7 @@ const CreatePage = () => {
               id="Email"
               value={email}
               name="email"
+              required
             />
             <input
               onChange={(e) => setBirthdate(e.target.value)}
@@ -136,13 +147,22 @@ const CreatePage = () => {
       </form>
       <div className="container flex gap-5 flex-wrap justify-center">
         {todosData.map((item) => (
-          <div className="bg-yellow-300 w-[300px] p-5 rounded-md" key={item.id}>
-            <p>LastName: {item.lastName}</p>
-            <p>FirstName: {item.firstName}</p>
-            <p>Email: {item.email}</p>
-            <p>Birthdate: {item.birthdate}</p>
+          <div
+            className="card bg-yellow-300 w-[300px] p-5 rounded-md"
+            key={item.id}
+          >
+            <div class="bg"></div>
+            <div class="blob"></div>
+            <p className="z-10 whitespace-nowrap">LastName: {item.lastName}</p>
+            <p className="z-10 whitespace-nowrap">
+              FirstName: {item.firstName}
+            </p>
+            <p className="z-10 whitespace-nowrap">Email: {item.email}</p>
+            <p className="z-10 whitespace-nowrap">
+              Birthdate: {item.birthdate}
+            </p>
             <p className="pb-10">Password: {item.password}</p>
-            <span className="button-group space-x-3">
+            <span className="button-group space-x-3 z-10">
               <button
                 onClick={() => handleUpdate(item.id)}
                 className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg p-3"
