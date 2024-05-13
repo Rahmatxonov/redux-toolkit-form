@@ -40,12 +40,13 @@ const CreatePage = () => {
       await updateTodos(todoData);
       setLetUpdate(false);
     } else {
-      await addTodoMutation(todoData);
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setBirthdate("");
-      setPassword("");
+      const response = await addTodoMutation(todoData);
+      const newTodo = response.data;
+      setFirstName(newTodo.firstName);
+      setLastName(newTodo.lastName);
+      setEmail(newTodo.email);
+      setBirthdate(newTodo.birthdate);
+      setPassword(newTodo.password);
     }
   };
 
@@ -53,7 +54,7 @@ const CreatePage = () => {
     await deleteTodoMutation(id);
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = async (id) => {
     const updatedData = todosData.find((item) => item.id === id);
     setFirstName(updatedData.firstName);
     setLastName(updatedData.lastName);
